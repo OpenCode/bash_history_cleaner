@@ -31,12 +31,17 @@ import argparse
 # ----- List of commands to delete from bash history file
 #       Keep the commands separated for alphabetical order
 command_list = [
-    'cd', 'clear',
+    'cat', 'cd', 'clear', 'cp',
     'exit',
     'ifconfig',
+    'kill', 'killall',
     'ls', 'lshd',
+    'man',
     'ping', 'pwd',
-    'top', 'reset',
+    'reset',
+    'su',
+    'top',
+    'xkill',
     ]
 
 
@@ -47,7 +52,7 @@ def valide_line(line):
     line = line.replace('\n', '')
     for command in command_list:
         # ----- Command with arguments or stand-alone command
-        if line.startswith('%s ' % command) or line == command:
+        if line == '' or line.startswith('%s ' % command) or line == command:
             valide = False
     return valide
 
