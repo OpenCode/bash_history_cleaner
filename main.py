@@ -3,7 +3,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
+#    BASH HISTORY CLEANER
 #    Copyright (c) 2014 Francesco OpenCode Apruzzese All Rights Reserved.
 #                       www.e-ware.org
 #                       opencode@e-ware.org
