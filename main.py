@@ -24,19 +24,27 @@
 ##############################################################################
 
 
+from os import listdir
 from os.path import expanduser
 import argparse
+import importlib
+from extras import *
 
+# ----- Read extra module to extend functionality
+extra_modules = [f.replace('.py', '') for f in listdir('extras')
+                if not (f.endswith('.pyc') or f == '__init__.py')]
 
 # ----- List of commands to delete from bash history file
 #       Keep the commands separated for alphabetical order
 command_list = [
+    '!!', '!pattern',
     'cat', 'cd', 'clear', 'cp',
+    'date',
     'exit',
     'ifconfig',
     'kill', 'killall',
-    'ls', 'lshd',
-    'man',
+    'less', 'ls', 'lshd',
+    'man', 'more', 'mkdir', 'mv',
     'ping', 'pwd',
     'reset',
     'su',
@@ -44,9 +52,17 @@ command_list = [
     'xkill',
     ]
 
+# ----- Extend the command list with extra module command list
+if extra_modules:
+    for extra_module in extra_modules:
+        print 'Load module "%s" from extras'
+        module = importlib.import_module('extras.%s' % (extra_module))
+        command_list = command_list + module.command_list
+        print command_list
+
 
 # ----- Return True if the line is a valide line for new history
-def valide_line(line):
+def valide_line(line, sudo):
 
     valide = True
     line = line.replace('\n', '')
@@ -54,6 +70,11 @@ def valide_line(line):
         # ----- Command with arguments or stand-alone command
         if line == '' or line.startswith('%s ' % command) or line == command:
             valide = False
+        if sudo:
+            # ----- Check sudo command, too
+            if line.startswith('sudo %s ' % command) or \
+                    line == 'sudo %s' % (command):
+                valide = False
     return valide
 
 
@@ -76,7 +97,7 @@ def main(args):
     history_file = open(history_file_path, 'r')
     new_history = ''
     for line in history_file.readlines():
-        if valide_line(line):
+        if valide_line(line, args.sudo):
             new_history = '%s%s' % (new_history, line)
     history_file.close()
 
@@ -90,9 +111,13 @@ def main(args):
 
 if __name__ == "__main__":
 
+    # ----- Parse terminal arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--file', dest='history_file',
                         help='Set an alternative bash history file')
-    parser.add_argument('-v', dest='verbose', action='store_true')
+    parser.add_argument('-s', '--sudo', dest='sudo', action='store_true',
+                        help='Include sudo command in cleaning, too')
+    parser.add_argument('-v', dest='verbose', action='store_true',
+                        help='Verbose mode')
     args = parser.parse_args()
     main(args)
