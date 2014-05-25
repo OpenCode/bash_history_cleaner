@@ -23,8 +23,20 @@
 #
 ##############################################################################
 
-# ----- This is an example used to remove all the 'git add .' and 'teamviewer'
-#       lines from bash history file
+# ----- List of commands to delete from bash history file
+#       Keep the commands separated for alphabetical order
 command_list = [
-    'git add .', 'teamviewer',
+    '!!', '!pattern',
+    'cat', 'cd', 'clear', 'cp',
+    'date',
+    'exit',
+    'ifconfig',
+    'kill', 'killall',
+    'less', 'ls', 'lshd',
+    'man', 'more', 'mkdir', 'mv',
+    'ping', 'pwd',
+    'reset',
+    'su',
+    'top',
+    'xkill',
     ]

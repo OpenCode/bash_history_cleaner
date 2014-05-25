@@ -32,25 +32,10 @@ from extras import *
 
 # ----- Read extra module to extend functionality
 extra_modules = [f.replace('.py', '') for f in listdir('extras')
-                if not (f.endswith('.pyc') or f == '__init__.py')]
+                 if not (f.endswith('.pyc') or f == '__init__.py')]
 
-# ----- List of commands to delete from bash history file
-#       Keep the commands separated for alphabetical order
-command_list = [
-    '!!', '!pattern',
-    'cat', 'cd', 'clear', 'cp',
-    'date',
-    'exit',
-    'ifconfig',
-    'kill', 'killall',
-    'less', 'ls', 'lshd',
-    'man', 'more', 'mkdir', 'mv',
-    'ping', 'pwd',
-    'reset',
-    'su',
-    'top',
-    'xkill',
-    ]
+# ----- List of commands filled from extended file
+command_list = []
 
 # ----- Extend the command list with extra module command list
 if extra_modules:
@@ -95,14 +80,21 @@ def main(args):
     # ----- Open the file and read line per line
     history_file = open(history_file_path, 'r')
     new_history = ''
-    for line in history_file.readlines():
+    lines = history_file.readlines()
+    new_lines_count = 0
+    if args.verbose:
+        print 'History lines: %s' % (len(lines))
+    for line in lines:
         if valide_line(line, args.sudo):
             new_history = '%s%s' % (new_history, line)
+            new_lines_count += 1
     history_file.close()
 
     # ----- Update file
     if args.verbose:
         print 'Update history file'
+        print 'History lines: %s' % (new_lines_count)
+        print '%s lines cleaned' % (len(lines)-new_lines_count)
     history_file = open(history_file_path, 'w')
     history_file.write(new_history)
     history_file.close()
