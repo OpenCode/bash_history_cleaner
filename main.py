@@ -55,10 +55,9 @@ command_list = [
 # ----- Extend the command list with extra module command list
 if extra_modules:
     for extra_module in extra_modules:
-        print 'Load module "%s" from extras'
+        print 'Load module "%s" from extras' % (extra_module)
         module = importlib.import_module('extras.%s' % (extra_module))
         command_list = command_list + module.command_list
-        print command_list
 
 
 # ----- Return True if the line is a valide line for new history
