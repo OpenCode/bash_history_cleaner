@@ -26,6 +26,7 @@
 
 from os import listdir
 from os.path import expanduser
+from shutil import copyfile
 import argparse
 import importlib
 from extras import *
@@ -77,6 +78,12 @@ def main(args):
             print 'Will be used defined bash history file %s' % (
                 history_file_path)
 
+    # ----- Backup if required
+    if args.backup:
+        copyfile(history_file_path, '%s_bck' % (history_file_path))
+        if args.verbose:
+            print 'Backup created in %s_bck' % (history_file_path)
+
     # ----- Open the file and read line per line
     history_file = open(history_file_path, 'r')
     new_history = ''
@@ -108,6 +115,8 @@ if __name__ == "__main__":
                         help='Set an alternative bash history file')
     parser.add_argument('-s', '--sudo', dest='sudo', action='store_true',
                         help='Include sudo command in cleaning, too')
+    parser.add_argument('-b', '--backup', dest='backup', action='store_true',
+                        help='Create a bash history file backup before use it')
     parser.add_argument('-v', dest='verbose', action='store_true',
                         help='Verbose mode')
     args = parser.parse_args()
