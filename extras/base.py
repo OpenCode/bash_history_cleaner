@@ -32,7 +32,7 @@ command_list = [
     'exit',
     'ifconfig',
     'kill', 'killall',
-    'less', 'ls', 'lshd',
+    'less', 'locate', 'ls', 'lshd',
     'man', 'more', 'mkdir', 'mv',
     'ping', 'pwd',
     'reset',
