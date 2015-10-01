@@ -37,6 +37,7 @@ command_list = [
     'ping', 'pwd',
     'reset',
     'su',
-    'top', 'touch',
+    'top', 'touch', 'tree',
+    'whereis',
     'xkill',
     ]
