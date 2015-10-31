@@ -39,5 +39,6 @@ command_list = [
     'su',
     'top', 'touch', 'tree',
     'whereis',
+    'vim',
     'xkill',
     ]

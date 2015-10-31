@@ -29,6 +29,7 @@ from os.path import expanduser
 from shutil import copyfile
 import argparse
 import importlib
+import re
 from extras import *
 
 # ----- Read extra module to extend functionality
@@ -53,12 +54,11 @@ def valide_line(line, sudo):
     line = line.replace('\n', '')
     for command in command_list:
         # ----- Command with arguments or stand-alone command
-        if line == '' or line.startswith('%s ' % command) or line == command:
+        if line == '' or re.match(command, line):
             valide = False
         if sudo:
             # ----- Check sudo command, too
-            if line.startswith('sudo %s ' % command) or \
-                    line == 'sudo %s' % (command):
+            if re.match('sudo {cmd}'.format(cmd=command), line):
                 valide = False
     return valide
 
