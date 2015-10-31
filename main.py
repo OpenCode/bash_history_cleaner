@@ -117,7 +117,7 @@ if __name__ == "__main__":
                         help='Include sudo command in cleaning, too')
     parser.add_argument('-b', '--backup', dest='backup', action='store_true',
                         help='Create a bash history file backup before use it')
-    parser.add_argument('-v', dest='verbose', action='store_true',
+    parser.add_argument('-v', '--verbose', dest='verbose', action='store_true',
                         help='Verbose mode')
     args = parser.parse_args()
     main(args)
