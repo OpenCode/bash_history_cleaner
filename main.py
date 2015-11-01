@@ -34,7 +34,7 @@ from extras import *
 
 # ----- Read extra module to extend functionality
 extra_modules = [f.replace('.py', '') for f in listdir('extras')
-                 if not (f.endswith('.pyc') or f == '__init__.py')]
+                 if not (f.endswith('.pyc') or f == '__init__.py' or f == '__pycache__')]
 
 # ----- List of commands filled from extended file
 command_list = []
@@ -42,7 +42,7 @@ command_list = []
 # ----- Extend the command list with extra module command list
 if extra_modules:
     for extra_module in extra_modules:
-        print 'Load module "%s" from extras' % (extra_module)
+        print('Load module "%s" from extras' % (extra_module))
         module = importlib.import_module('extras.%s' % (extra_module))
         command_list = command_list + module.command_list
 
@@ -70,19 +70,19 @@ def main(args):
         home_path = expanduser("~")
         history_file_path = '%s/.bash_history' % (home_path)
         if args.verbose:
-            print 'Will be used standard bash history file %s' % (
-                history_file_path)
+            print('Will be used standard bash history file %s' % (
+                history_file_path))
     else:
         history_file_path = args.history_file
         if args.verbose:
-            print 'Will be used defined bash history file %s' % (
-                history_file_path)
+            print('Will be used defined bash history file %s' % (
+                history_file_path))
 
     # ----- Backup if required
     if args.backup:
         copyfile(history_file_path, '%s_bck' % (history_file_path))
         if args.verbose:
-            print 'Backup created in %s_bck' % (history_file_path)
+            print('Backup created in %s_bck' % (history_file_path))
 
     # ----- Open the file and read line per line
     history_file = open(history_file_path, 'r')
@@ -90,7 +90,7 @@ def main(args):
     lines = history_file.readlines()
     new_lines_count = 0
     if args.verbose:
-        print 'History lines: %s' % (len(lines))
+        print('History lines: %s' % (len(lines)))
     for line in lines:
         if valide_line(line, args.sudo):
             new_history = '%s%s' % (new_history, line)
@@ -99,9 +99,9 @@ def main(args):
 
     # ----- Update file
     if args.verbose:
-        print 'Update history file'
-        print 'History lines: %s' % (new_lines_count)
-        print '%s lines cleaned' % (len(lines)-new_lines_count)
+        print('Update history file')
+        print('History lines: %s' % (new_lines_count))
+        print('%s lines cleaned' % (len(lines)-new_lines_count))
     history_file = open(history_file_path, 'w')
     history_file.write(new_history)
     history_file.close()
